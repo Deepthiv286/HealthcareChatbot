@@ -1,3 +1,4 @@
+pip==23.1.2
 aniso8601==8.1.0
 astroid==2.4.2
 autopep8==1.5.4
