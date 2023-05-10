@@ -10,7 +10,22 @@ import streamlit as st
 # #CORS(app) #comment this on deployment
 # api = Api(app)
 
+if 'sidebar_state' not in st.session_state:
+    st.session_state.sidebar_state = 'expanded'
+
+st.set_page_config(initial_sidebar_state=st.session_state.sidebar_state)
+
 st.sidebar.title("NLP Bot")
+
+st.sidebar.title('Search for any disease')
+
+name = st.sidebar.text_input("Enter Your name", "Type Here ...")
+ 
+# display the name when the submit button is clicked
+# .title() is used to get the input text string
+if(st.sidebar.button('Submit')):
+    result = name.title()
+    st.sidebar.success(result)
 
 # @app.route("/", defaults={'path':''})
 # def serve(path):
