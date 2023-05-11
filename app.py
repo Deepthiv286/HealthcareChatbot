@@ -24,6 +24,7 @@ name = st.sidebar.text_input("Search for any disease", placeholder="Type Here ..
 # .title() is used to get the input text string
 if(st.sidebar.button('Submit')):
     result = name.title()
+    st.sidebar.success(result)
     # st.sidebar.title(diseaseDetail(result))
 
 # @app.route("/", defaults={'path':''})
