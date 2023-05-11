@@ -4,4 +4,4 @@ google
 html5lib
 requests
 streamlit
-streamlit_chat
+streamlit-chat
