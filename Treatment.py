@@ -1,5 +1,5 @@
 import re
-from googlesearch import search
+from google import search
 import warnings
 warnings.filterwarnings("ignore")
 import requests
