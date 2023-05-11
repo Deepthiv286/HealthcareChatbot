@@ -1,5 +1,4 @@
-bs4
+beautifulsoup4
 google
-regex
 requests
 streamlit
