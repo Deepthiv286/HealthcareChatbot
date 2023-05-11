@@ -3,6 +3,7 @@
 # #from flask_cors import CORS #comment this on deployment
 # from api.HelloApiHandler import HelloApiHandler
 import streamlit as st
+from Treatment import diseaseDetail
 
 # header=st.container()
 
@@ -17,15 +18,13 @@ st.set_page_config(initial_sidebar_state=st.session_state.sidebar_state)
 
 st.sidebar.title("NLP Bot")
 
-st.sidebar.title('Search for any disease')
-
-name = st.sidebar.text_input("Enter Your name", "Type Here ...")
+name = st.sidebar.text_input("Search for any disease", placeholder="Type Here ...")
  
 # display the name when the submit button is clicked
 # .title() is used to get the input text string
 if(st.sidebar.button('Submit')):
     result = name.title()
-    st.sidebar.success(result)
+    st.sidebar.title(diseaseDetail(result))
 
 # @app.route("/", defaults={'path':''})
 # def serve(path):
