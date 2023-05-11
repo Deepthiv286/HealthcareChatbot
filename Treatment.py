@@ -1,7 +1,5 @@
 import re
-from google import search
-import warnings
-warnings.filterwarnings("ignore")
+from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
 
