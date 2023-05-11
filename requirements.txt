@@ -1,4 +1,4 @@
-beautifulsoup4 >= 4.12.2
+bs4 >= 0.0.1
 google >= 3.0.0
 requests > 2.30.0
 streamlit >= 1.22.0
