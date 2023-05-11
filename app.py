@@ -8,13 +8,16 @@ from streamlit_chat import message
 
 message_history= []
 
-message("My message") 
-
 # header=st.container()
 
 # app = Flask(__name__, static_url_path='', static_folder='frontend/build')
 # #CORS(app) #comment this on deployment
 # api = Api(app)
+
+st.set_page_config(
+    page_title="HEALTHCARE CHATBOT",
+    layout="wide",
+)
 
 if 'sidebar_state' not in st.session_state:
     st.session_state.sidebar_state = 'expanded'
@@ -32,6 +35,7 @@ if(st.sidebar.button('Submit')):
     
 st.sidebar.title(diseaseDetail(result))
 
+message("My message")
 
 for message_ in message_history:
     message(message_)   # display all the previous message
@@ -43,7 +47,7 @@ message_history.append(input_)
 with placeholder.container():
     message(message_history[-1]) # display the latest message
 
-    
+
 # @app.route("/", defaults={'path':''})
 # def serve(path):
 #     return send_from_directory(app.static_folder,'index.html')
