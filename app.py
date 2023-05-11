@@ -3,7 +3,7 @@
 # #from flask_cors import CORS #comment this on deployment
 # from api.HelloApiHandler import HelloApiHandler
 import streamlit as st
-from Treatment import diseaseDetail
+# from Treatment import diseaseDetail
 
 # header=st.container()
 
@@ -24,7 +24,7 @@ name = st.sidebar.text_input("Search for any disease", placeholder="Type Here ..
 # .title() is used to get the input text string
 if(st.sidebar.button('Submit')):
     result = name.title()
-    st.sidebar.title(diseaseDetail(result))
+    # st.sidebar.title(diseaseDetail(result))
 
 # @app.route("/", defaults={'path':''})
 # def serve(path):
