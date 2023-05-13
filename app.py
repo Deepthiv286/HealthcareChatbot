@@ -40,13 +40,6 @@ if (st.sidebar.button('Submit')):
 message_history.append(
     {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
 
-def display_messages():
-    st.write(len(message_history))
-    for i in range(len(message_history)):
-        st.write(i)
-        message(message_history[i]["text"], is_user=message_history[i]["is_user"], key=str(i))
-
-display_messages()
 
 # placeholder = st.empty()  # placeholder for latest message
 input_ = st.text_input("you:", key="input")
@@ -54,13 +47,14 @@ input_ = st.text_input("you:", key="input")
 if (input_):
     message_history.append({"text": input_, "is_user": True})
     message_history.append({"text": "Hello", "is_user": False})
-    display_messages()
 
 # with placeholder.container():
 #     # display the latest message
 #     message(message_history[-1]["text"], is_user= message_history[-1]["is_user"])
 
-
+for i in range(len(message_history)):
+        st.write(i)
+        message(message_history[i]["text"], is_user=message_history[i]["is_user"], key=str(i))
 
 # @app.route("/", defaults={'path':''})
 # def serve(path):
