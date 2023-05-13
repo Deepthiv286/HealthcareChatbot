@@ -40,8 +40,11 @@ if (st.sidebar.button('Submit')):
 message_history.append(
     {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
 
-for message_ in message_history:
-    message(message_["text"], is_user=message_["is_user"])
+def display_messages():
+    for message_ in message_history:
+        message(message_["text"], is_user=message_["is_user"])
+
+display_messages()
 
 # placeholder = st.empty()  # placeholder for latest message
 input_ = st.text_input("you:")
@@ -49,7 +52,7 @@ input_ = st.text_input("you:")
 if (input_):
     message_history.append({"text": input_, "is_user": True})
     message_history.append({"text": "Hello", "is_user": False})
-
+    display_messages()
 
 # with placeholder.container():
 #     # display the latest message
