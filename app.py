@@ -11,8 +11,8 @@ st.set_page_config(
 
 st.sidebar.title("NLP Bot")
 
-if 'sidebar_input' not in st.sidebar.session_state:
-    st.sidebar.session_state.sidebar_input = ''
+if 'sidebar_input' not in st.session_state:
+    st.session_state.sidebar_input = ''
 
 st.sidebar.text_input(
     "Search for any disease", placeholder="Type Here ...", key="sidebar_input")
@@ -21,7 +21,7 @@ st.sidebar.text_input(
 # .title() is used to get the input text string
 if (st.sidebar.button('Submit')):
     result = diseaseDetail(st.sidebar.session_state.sidebar_input)
-    st.sidebar.session_state.sidebar_input = ''
+    st.session_state.sidebar_input = ''
     st.sidebar.title(result)
 
 
