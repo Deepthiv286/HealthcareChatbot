@@ -39,7 +39,7 @@ if (st.sidebar.button('Submit')):
 
 
 if 'generated' not in st.session_state:
-    st.session_state['generated'] = []
+    st.session_state['generated'] = [{"text":"Please enter symptoms separated by comma(,)", "is_user": False}]
 
 def query(payload):
 	return "Hello"+ str(random.randint(0, 50))
@@ -48,7 +48,6 @@ def get_text():
     input_text = st.text_input("You: ", key="input")
     return input_text 
 
-st.session_state.generated.append({"text":"Please enter symptoms separated by comma(,)", "is_user": False})
 
 user_input = get_text()
 
