@@ -1,7 +1,9 @@
 import streamlit as st
-from Treatment import diseaseDetail
 from streamlit_chat import message
 import random
+
+from Treatment import diseaseDetail
+from functions import get_matching_symptoms
 
 st.set_page_config(
     page_title="HEALTHCARE CHATBOT",
@@ -20,7 +22,7 @@ st.sidebar.text_input(
 # display the name when the submit button is clicked
 # .title() is used to get the input text string
 if (st.sidebar.button('Submit')):
-    result = diseaseDetail(st.sidebar.session_state.sidebar_input)
+    result = diseaseDetail(st.session_state.sidebar_input)
     st.session_state.sidebar_input = ''
     st.sidebar.title(result)
 
@@ -37,12 +39,7 @@ def query(payload):
 
 
 def submit():
-    output = query({
-        "inputs": {
-            "generated_responses": st.session_state.generated,
-            "text": st.session_state.input,
-        },"parameters": {"repetition_penalty": 1.33},
-    })
+    output = get_matching_symptoms(st.session_state.input)
 
     st.session_state.generated.append({"text": st.session_state.input, "is_user": True})
     st.session_state.generated.append({"text": output, "is_user": False})

@@ -2,6 +2,8 @@ bs4
 beautifulsoup4
 google
 html5lib
+nltk
 requests
 streamlit
 streamlit-chat
+tensorflow

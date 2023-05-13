@@ -1,0 +1,5 @@
+PATH_TO_DATASET1 = "dataset1.csv"
+PATH_TO_DATASET2 = "dataset2.csv"
+MODEL_PATH = "voice_chatbot_model.pk"
+MODEL_SCORES_PATH = "model_scores.pk"
+SYMPTOMS_PATH = "model_sypmtoms.pk"
