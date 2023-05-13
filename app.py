@@ -6,7 +6,7 @@ import streamlit as st
 from Treatment import diseaseDetail
 from streamlit_chat import message
 
-message_history= []
+message_history = []
 
 # header=st.container()
 
@@ -27,26 +27,33 @@ st.set_page_config(
 
 st.sidebar.title("NLP Bot")
 
-name = st.sidebar.text_input("Search for any disease", placeholder="Type Here ...")
-result = ''
+name = st.sidebar.text_input(
+    "Search for any disease", placeholder="Type Here ...")
+
 # display the name when the submit button is clicked
 # .title() is used to get the input text string
-if(st.sidebar.button('Submit')):
-    result = name.title()
-    
-st.sidebar.title(diseaseDetail(result))
+if (st.sidebar.button('Submit')):
+    result = diseaseDetail(name.title())
+    st.sidebar.title(result)
 
-message("My message")
+
+message_history.append(
+    {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
 
 for message_ in message_history:
-    message(message_)   # display all the previous message
+    # display all the previous message
+    message(message_.text, "is_user": message_.is_user)
 
 placeholder = st.empty()  # placeholder for latest message
 input_ = st.text_input("you:")
-message_history.append(input_)
+if (input_){
+    message_history.append({"text": input_, "is_user": True})
+    message_history.append({"text": "Hello", "is_user": False})
+}
 
 with placeholder.container():
-    message(message_history[-1]) # display the latest message
+    # display the latest message
+    message(message_history[-1].text, is_user: message_history[-1].is_user)
 
 
 # @app.route("/", defaults={'path':''})
