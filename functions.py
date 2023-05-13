@@ -1,18 +1,15 @@
+from nltk.corpus import wordnet
+import configuration as c
+from nltk.tokenize import RegexpTokenizer
+from nltk.stem import WordNetLemmatizer
+from itertools import combinations
+from bs4 import BeautifulSoup
+from tensorflow.keras.models import load_model
+import requests
+import pickle
 import nltk
 nltk.download('wordnet')
 
-import pickle
-import requests
-
-from tensorflow.keras.models import load_model
-from bs4 import BeautifulSoup
-from itertools import combinations
-
-from nltk.corpus import wordnet 
-from nltk.stem import WordNetLemmatizer
-from nltk.tokenize import RegexpTokenizer
-
-import configuration as c
 
 lemmatizer = WordNetLemmatizer()
 splitter = RegexpTokenizer(r'\w+')
@@ -101,7 +98,7 @@ def get_matching_symptoms(symptoms):
     # Print all found symptoms
     bot_response = "Top matching symptoms from your search!"
     for idx, symp in enumerate(found_symptoms):
-        bot_response = bot_response+'\n'+(idx, ":", symp)
+        bot_response = bot_response+'\n'+idx + " : " + symp
 
     # Show the related symptoms found in the dataset and ask user to select among them
     bot_response = bot_response + \
