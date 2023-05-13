@@ -3,7 +3,9 @@ beautifulsoup4
 google
 html5lib
 nltk
+pickle
 requests
+sklearn
 streamlit
 streamlit-chat
 tensorflow
