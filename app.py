@@ -66,7 +66,7 @@ if user_input:
 if st.session_state['generated']:
 
     for i in range(len(st.session_state['generated'])-1, -1, -1):
-        message(st.session_state["generated"][i].text, is_user=st.session_state["generated"][i].is_user, key=str(i))
+        message(st.session_state["generated"][i]["text"], is_user=st.session_state["generated"][i]["is_user"], key=str(i))
 
 # message_history.append(
 #     {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
