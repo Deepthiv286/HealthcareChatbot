@@ -41,7 +41,9 @@ message_history.append(
     {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
 
 def display_messages():
+    st.write(len(message_history))
     for i in range(len(message_history)):
+        st.write(i)
         message(message_history[i]["text"], is_user=message_history[i]["is_user"], key=str(i))
 
 display_messages()
