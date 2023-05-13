@@ -41,31 +41,38 @@ if (st.sidebar.button('Submit')):
 if 'generated' not in st.session_state:
     st.session_state['generated'] = [{"text":"Please enter symptoms separated by comma(,)", "is_user": False}]
 
+if 'input' not in st.session_state:
+    st.session_state.input = ''
+
+
 def query(payload):
 	return "Hello"+ str(random.randint(0, 50))
 
-def get_text():
-    input_text = st.text_input("You: ", key="input")
-    return input_text 
 
-
-user_input = get_text()
-
-if user_input:
+def submit():
     output = query({
         "inputs": {
             "generated_responses": st.session_state.generated,
-            "text": user_input,
+            "text": st.session_state.input,
         },"parameters": {"repetition_penalty": 1.33},
     })
 
-    st.session_state.generated.append({"text": user_input, "is_user": True})
+    st.session_state.generated.append({"text": st.session_state.input, "is_user": True})
     st.session_state.generated.append({"text": output, "is_user": False})
+    st.session_state.input = ''
+
+
+def get_text():
+    return st.text_input("You: ", key="input", on_change=submit)
+
 
 if st.session_state['generated']:
 
     for i in range(len(st.session_state['generated'])-1, -1, -1):
         message(st.session_state["generated"][i]["text"], is_user=st.session_state["generated"][i]["is_user"], key=str(i))
+
+
+user_input = get_text()
 
 # message_history.append(
 #     {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
