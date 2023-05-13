@@ -13,29 +13,26 @@ st.set_page_config(
 
 st.sidebar.title("NLP Bot")
 
-if 'sidebar_input' not in st.session_state:
-    st.session_state.sidebar_input = ''
 
-st.sidebar.text_input(
+placeholder = st.sidebar.empty()
+
+
+disease = placeholder.text_input(
     "Search for any disease", placeholder="Type Here ...", key="sidebar_input")
 
-# display the name when the submit button is clicked
-# .title() is used to get the input text string
+
 if (st.sidebar.button('Submit')):
-    result = diseaseDetail(st.session_state.sidebar_input)
-    st.session_state.sidebar_input = ''
+    result = diseaseDetail(disease.title())
+    placeholder.empty()
     st.sidebar.title(result)
 
 
 if 'generated' not in st.session_state:
     st.session_state['generated'] = [{"text":"Please enter symptoms separated by comma(,)", "is_user": False}]
 
+
 if 'input' not in st.session_state:
     st.session_state.input = ''
-
-
-def query(payload):
-	return "Hello\n"+ str(random.randint(0, 50))
 
 
 def submit():
