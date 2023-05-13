@@ -52,7 +52,7 @@ if (input_):
 #     # display the latest message
 #     message(message_history[-1]["text"], is_user= message_history[-1]["is_user"])
 
-for i in range(len(message_history)):
+for i in range(len(message_history)-1,-1,-1):
         st.write(i)
         message(message_history[i]["text"], is_user=message_history[i]["is_user"], key=str(i))
 
