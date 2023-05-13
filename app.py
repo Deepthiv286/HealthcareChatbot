@@ -5,7 +5,7 @@
 import streamlit as st
 from Treatment import diseaseDetail
 from streamlit_chat import message
-import requests
+import random
 
 message_history = []
 
@@ -37,8 +37,6 @@ if (st.sidebar.button('Submit')):
     result = diseaseDetail(name.title())
     st.sidebar.title(result)
 
-API_URL = "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill"
-headers = {"Authorization": st.secrets['api_key']}
 
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
@@ -47,8 +45,7 @@ if 'past' not in st.session_state:
     st.session_state['past'] = []
 
 def query(payload):
-	response = requests.post(API_URL, headers=headers, json=payload)
-	return response.json()
+	return "Hello"+ str(random.randint(0, 50))
 
 def get_text():
     input_text = st.text_input("You: ", key="input")
@@ -68,7 +65,7 @@ if user_input:
     })
 
     st.session_state.past.append(user_input)
-    st.session_state.generated.append(output["generated_text"])
+    st.session_state.generated.append(output)
 
 if st.session_state['generated']:
 
