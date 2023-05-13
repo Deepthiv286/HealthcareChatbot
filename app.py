@@ -41,19 +41,19 @@ message_history.append(
     {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
 
 for message_ in message_history:
-    # display all the previous message
-    message(message_.text, "is_user": message_.is_user)
+    message(message_.text, is_user=message_.is_user)
 
 placeholder = st.empty()  # placeholder for latest message
 input_ = st.text_input("you:")
-if (input_){
+
+if (input_):
     message_history.append({"text": input_, "is_user": True})
     message_history.append({"text": "Hello", "is_user": False})
-}
+
 
 with placeholder.container():
     # display the latest message
-    message(message_history[-1].text, is_user: message_history[-1].is_user)
+    message(message_history[-1].text, is_user= message_history[-1].is_user)
 
 
 # @app.route("/", defaults={'path':''})
