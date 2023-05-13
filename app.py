@@ -5,6 +5,7 @@
 import streamlit as st
 from Treatment import diseaseDetail
 from streamlit_chat import message
+import requests
 
 message_history = []
 
@@ -36,25 +37,63 @@ if (st.sidebar.button('Submit')):
     result = diseaseDetail(name.title())
     st.sidebar.title(result)
 
+API_URL = "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill"
+headers = {"Authorization": st.secrets['api_key']}
 
-message_history.append(
-    {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
+if 'generated' not in st.session_state:
+    st.session_state['generated'] = []
+
+if 'past' not in st.session_state:
+    st.session_state['past'] = []
+
+def query(payload):
+	response = requests.post(API_URL, headers=headers, json=payload)
+	return response.json()
+
+def get_text():
+    input_text = st.text_input("You: ", key="input")
+    return input_text 
+
+st.session_state.generated.append("Please enter symptoms separated by comma(,)")
+
+user_input = get_text()
+
+if user_input:
+    output = query({
+        "inputs": {
+            "past_user_inputs": st.session_state.past,
+            "generated_responses": st.session_state.generated,
+            "text": user_input,
+        },"parameters": {"repetition_penalty": 1.33},
+    })
+
+    st.session_state.past.append(user_input)
+    st.session_state.generated.append(output["generated_text"])
+
+if st.session_state['generated']:
+
+    for i in range(len(st.session_state['generated'])-1, -1, -1):
+        message(st.session_state["generated"][i], key=str(i))
+        message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+
+# message_history.append(
+#     {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
 
 
-# placeholder = st.empty()  # placeholder for latest message
-input_ = st.text_input("you:", key="input")
+# # placeholder = st.empty()  # placeholder for latest message
+# input_ = st.text_input("you:", key="input")
 
-if (input_):
-    message_history.append({"text": input_, "is_user": True})
-    message_history.append({"text": "Hello", "is_user": False})
+# if (input_):
+#     message_history.append({"text": input_, "is_user": True})
+#     message_history.append({"text": "Hello", "is_user": False})
 
-# with placeholder.container():
-#     # display the latest message
-#     message(message_history[-1]["text"], is_user= message_history[-1]["is_user"])
+# # with placeholder.container():
+# #     # display the latest message
+# #     message(message_history[-1]["text"], is_user= message_history[-1]["is_user"])
 
-for i in range(len(message_history)-1,-1,-1):
-        st.write(i)
-        message(message_history[i]["text"], is_user=message_history[i]["is_user"], key=str(i))
+# for i in range(len(message_history)-1,-1,-1):
+#         st.write(i)
+#         message(message_history[i]["text"], is_user=message_history[i]["is_user"], key=str(i))
 
 # @app.route("/", defaults={'path':''})
 # def serve(path):
