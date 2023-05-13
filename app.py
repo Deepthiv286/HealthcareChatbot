@@ -41,6 +41,7 @@ message_history.append(
     {"text": "Please enter symptoms separated by comma(,)", "is_user": False})
 
 for message_ in message_history:
+    print(message_)
     message(message_.text, is_user=message_.is_user)
 
 placeholder = st.empty()  # placeholder for latest message
