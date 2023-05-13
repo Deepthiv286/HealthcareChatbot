@@ -73,7 +73,7 @@ if st.session_state['generated']:
         if st.session_state["generated"][i]:
             message(st.session_state["generated"][i], key=str(i))
 
-        if len(st.session_state['past']):
+        if len(st.session_state['past']) > 0:
             message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
 
 # message_history.append(
