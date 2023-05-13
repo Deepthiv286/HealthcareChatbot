@@ -98,7 +98,7 @@ def get_matching_symptoms(symptoms):
     # Print all found symptoms
     bot_response = "Top matching symptoms from your search!"
     for idx, symp in enumerate(found_symptoms):
-        bot_response = bot_response+'\n'+idx + " : " + symp
+        bot_response = bot_response+'\n'+str(idx) + " : " + symp
 
     # Show the related symptoms found in the dataset and ask user to select among them
     bot_response = bot_response + \
