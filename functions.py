@@ -12,6 +12,7 @@ import requests
 import pickle
 import nltk
 nltk.download('wordnet')
+from statistics import mean
 
 
 lemmatizer = WordNetLemmatizer()
@@ -198,7 +199,7 @@ def get_predicted_diseases():
     diseases.sort()
     topk = prediction[0].argsort()[-k:][::-1]
 
-    text=text+"\n\nTop 10 diseases predicted based on symptoms")
+    text=text+"\n\nTop 10 diseases predicted based on symptoms"
     topk_dict = {}
     # Show top 10 highly probable disease to the user.
     for idx,t in  enumerate(topk):
@@ -210,7 +211,7 @@ def get_predicted_diseases():
             if val!=0:
                 match_sym.add(dataset_symptoms[idx])
         prob = (len(match_sym.intersection(set(final_symp)))+1)/(len(set(final_symp))+1)
-        prob *= mean(scores)
+        prob *= mean(model_scores)
         topk_dict[t] = prob
     j = 0
     topk_index_mapping = {}
