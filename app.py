@@ -44,6 +44,7 @@ def submit():
             {"text": st.session_state.input, "is_user": True})
         st.session_state.generated.append({"text": output, "is_user": False})
         st.session_state.input = ''
+        st.session_state.step += 1
     
 
 
