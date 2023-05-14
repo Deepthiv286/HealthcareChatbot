@@ -10,6 +10,8 @@ import pickle
 import nltk
 nltk.download('wordnet')
 import pandas as pd
+from collections import Counter
+import operator
 
 
 lemmatizer = WordNetLemmatizer()

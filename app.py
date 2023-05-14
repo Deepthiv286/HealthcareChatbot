@@ -37,14 +37,14 @@ if 'step' not in st.session_state:
 
 
 def submit():
-    if (st.session_state.input != ''){
-        output = get_matching_symptoms(st.session_state.input) if st.session_state.step==1 else get_cooccurring_symptoms(st.session_state.input)
+    if (st.session_state.input != ''):
+        output = get_matching_symptoms(st.session_state.input) if st.session_state.step == 1 else get_cooccurring_symptoms(st.session_state.input)
 
         st.session_state.generated.append(
             {"text": st.session_state.input, "is_user": True})
         st.session_state.generated.append({"text": output, "is_user": False})
         st.session_state.input = ''
-    }
+    
 
 
 if st.session_state['generated']:
