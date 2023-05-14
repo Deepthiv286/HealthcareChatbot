@@ -48,7 +48,7 @@ def get_response():
         response = get_cooccurring_symptoms(st.session_state.input)
     else:
         st.session_state.count += 1
-        response = get_next_cooccurring_symptoms(st.session_state.input, st.session_state.count)
+        response = get_next_cooccurring_symptoms(st.session_state.input.lower().split(), st.session_state.count)
 
     return response
 

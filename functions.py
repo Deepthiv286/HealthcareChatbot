@@ -172,7 +172,8 @@ def get_next_cooccurring_symptoms(symptoms, count):
         text = "Common co-occuring symptoms:"
         for idx, ele in enumerate(found_symptoms):
             text = text+'\n'+str(idx)+" : "+ele
-            text = text + "\n\nDo you have have of these symptoms? If Yes, enter the indices (space-separated), 'no' to stop, '-1' to skip:"
+        
+        text = text + "\n\nDo you have have of these symptoms? If Yes, enter the indices (space-separated), 'no' to stop, '-1' to skip:"
         
     for idx in select_list:
         final_symp.append(found_symptoms[int(idx)])
