@@ -160,25 +160,25 @@ def get_next_cooccurring_symptoms(symptoms, count):
     del dict_symp_tup[:5*count]
     tup = dict_symp_tup[slice(0, 5)]
 
-    found_symptoms.append(tup[0])
-    if count % 5 == 0 or count == len(dict_symp_tup):
+    for ele in tup:
+        found_symptoms.append(ele[0])
 
-        if select_list[0] == 'no':
-            text = get_predicted_diseases()
-        elif select_list[0] == '-1':
-            found_symptoms = []
-            get_next_cooccurring_symptoms(symptoms, count+1)
-        else:
-            text = "Common co-occuring symptoms:"
-            for idx, ele in enumerate(found_symptoms):
-                text = text+'\n'+str(idx)+" : "+ele
-                text = text + "\n\nDo you have have of these symptoms? If Yes, enter the indices (space-separated), 'no' to stop, '-1' to skip:"
-            
-        for idx in select_list:
-            final_symp.append(found_symptoms[int(idx)])
-
-        pickle.dump(final_symp, open(c.FINAL_SYMPTOMS_PATH, 'wb'))
+    if select_list[0] == 'no':
+        text = get_predicted_diseases()
+    elif select_list[0] == '-1':
         found_symptoms = []
+        get_next_cooccurring_symptoms(symptoms, count+1)
+    else:
+        text = "Common co-occuring symptoms:"
+        for idx, ele in enumerate(found_symptoms):
+            text = text+'\n'+str(idx)+" : "+ele
+            text = text + "\n\nDo you have have of these symptoms? If Yes, enter the indices (space-separated), 'no' to stop, '-1' to skip:"
+        
+    for idx in select_list:
+        final_symp.append(found_symptoms[int(idx)])
+
+    pickle.dump(final_symp, open(c.FINAL_SYMPTOMS_PATH, 'wb'))
+    found_symptoms = []
 
     return text
 
