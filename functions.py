@@ -157,8 +157,8 @@ def get_next_cooccurring_symptoms(symptoms, count):
     text=''
     final_symp = pickle.load(open(c.FINAL_SYMPTOMS_PATH, 'rb'))
 
-    dict_symp_tup.slice(0, 5*count)
-    tup = dict_symp_tup.slice(0, 5)
+    del dict_symp_tup[:5*count]
+    tup = dict_symp_tup[slice(0, 5)]
 
     found_symptoms.append(tup[0])
     if count % 5 == 0 or count == len(dict_symp_tup):
