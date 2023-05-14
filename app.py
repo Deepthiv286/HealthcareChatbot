@@ -3,7 +3,7 @@ from streamlit_chat import message
 import random
 
 from Treatment import diseaseDetail
-from functions import get_matching_symptoms, get_cooccurring_symptoms
+from functions import get_matching_symptoms, get_cooccurring_symptoms, get_next_cooccurring_symptoms
 
 st.set_page_config(
     page_title="HEALTHCARE CHATBOT",
@@ -36,9 +36,26 @@ if 'step' not in st.session_state:
     st.session_state.step = 1
 
 
+if 'count' not in st.session_state:
+    st.session_state.count = 0
+
+
+def get_response():
+    response = ''
+    if st.session_state.step == 1:
+        response = get_matching_symptoms(st.session_state.input) 
+    elif st.session_state.step == 2: 
+        response = get_cooccurring_symptoms(st.session_state.input)
+    else:
+        st.session_state.count += 1
+        response = get_next_cooccurring_symptoms(st.session_state.input, count)
+
+    return response
+
+
 def submit():
     if (st.session_state.input != ''):
-        output = get_matching_symptoms(st.session_state.input) if st.session_state.step == 1 else get_cooccurring_symptoms(st.session_state.input)
+        output = get_response()
 
         st.session_state.generated.append(
             {"text": st.session_state.input, "is_user": True})
