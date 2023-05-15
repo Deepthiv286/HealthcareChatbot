@@ -167,7 +167,7 @@ def get_next_cooccurring_symptoms(symptoms, count):
         text = get_predicted_diseases()
     elif select_list[0] == '-1':
         found_symptoms = []
-        get_next_cooccurring_symptoms(symptoms, count+1)
+        get_next_cooccurring_symptoms([], count+1)
     else:
         text = "Common co-occuring symptoms:"
         for idx, ele in enumerate(found_symptoms):
