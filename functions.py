@@ -150,6 +150,7 @@ def get_cooccurring_symptoms(symptoms):
 
 
 def get_next_cooccurring_symptoms(symptoms, count):
+    print(symptoms)
     select_list = symptoms
     dict_symp_tup = pickle.load(open(c.COOCCURRING_SYMPTOMS_PATH, 'rb'))
     # Iteratively, suggest top co-occuring symptoms to the user and ask to select the ones applicable
@@ -167,7 +168,7 @@ def get_next_cooccurring_symptoms(symptoms, count):
         text = get_predicted_diseases()
     elif select_list[0] == '-1':
         found_symptoms = []
-        get_next_cooccurring_symptoms([], count+1)
+        get_next_cooccurring_symptoms([''], count+1)
     else:
         text = "Common co-occuring symptoms:"
         for idx, ele in enumerate(found_symptoms):
