@@ -3,11 +3,7 @@ beautifulsoup4
 google
 html5lib
 nltk
-build-essential
-libasound-dev
-portaudio19-dev
-python3-pyaudio
-pyaudio
+PyAudio
 requests
 scikit-learn
 SpeechRecognition
