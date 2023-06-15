@@ -1,11 +1,6 @@
 import streamlit as st
 from streamlit_chat import message
-from st_clickable_images import clickable_images
-from st_click_detector import click_detector
 import speech_recognition as sr
-from PIL import Image
-import random
-import base64
 
 from Treatment import diseaseDetail
 from functions import get_matching_symptoms, get_cooccurring_symptoms, get_next_cooccurring_symptoms
