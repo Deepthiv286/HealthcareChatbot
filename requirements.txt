@@ -5,6 +5,7 @@ html5lib
 nltk
 requests
 scikit-learn
+speech-recognition
 streamlit
 streamlit-chat
 tensorflow
