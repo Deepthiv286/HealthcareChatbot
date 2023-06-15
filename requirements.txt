@@ -3,8 +3,10 @@ beautifulsoup4
 google
 html5lib
 nltk
+PIL
 requests
 scikit-learn
+st-clickable-images
 streamlit
 streamlit-chat
 tensorflow

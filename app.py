@@ -1,9 +1,19 @@
 import streamlit as st
 from streamlit_chat import message
+from st_clickable_images import clickable_images
+from st_click_detector import click_detector
+import speech_recognition as sr
+from PIL import Image
 import random
+import base64
 
 from Treatment import diseaseDetail
 from functions import get_matching_symptoms, get_cooccurring_symptoms, get_next_cooccurring_symptoms
+
+
+# Initialize the recognizer
+r = sr.Recognizer()
+
 
 st.set_page_config(
     page_title="HEALTHCARE CHATBOT",
@@ -40,36 +50,83 @@ if 'count' not in st.session_state:
     st.session_state.count = 0
 
 
-def get_response():
+def get_response(by_voice, text):
     response = ''
     if st.session_state.step == 1:
-        response = get_matching_symptoms(st.session_state.input) 
-    elif st.session_state.step == 2: 
-        response = get_cooccurring_symptoms(st.session_state.input)
+        response = get_matching_symptoms(text, by_voice)
+        if response != []:
+            st.session_state.step += 1
+        else:
+            response = "Please enter symptoms separated by comma(,)"
+    elif st.session_state.step == 2:
+        [response, out_of_bound] = get_cooccurring_symptoms(text)
+        if out_of_bound == False:
+            st.session_state.step += 1
     else:
-        st.session_state.count += 1
-        response = get_next_cooccurring_symptoms(st.session_state.input.lower().split(), st.session_state.count)
+        [response, out_of_bound, count] = get_next_cooccurring_symptoms(
+            text.lower().split(), st.session_state.count)
+        if out_of_bound == False:
+            st.session_state.count += 1
+        elif st.session_state.count != count:
+            st.session_state.count = count
 
     return response
 
 
-def submit():
-    if (st.session_state.input != ''):
-        output = get_response()
+def send():
+    submit('', st.session_state.input)
+
+
+def get_voice_response():
+    try:
+
+        # use the microphone as source for input.
+        with sr.Microphone() as source2:
+
+            # wait for a second to let the recognizer
+            # adjust the energy threshold based on
+            # the surrounding noise level
+            r.adjust_for_ambient_noise(source2, duration=0.2)
+
+            # listens for the user's input
+            audio2 = r.listen(source2)
+
+            # Using google to recognize audio
+            text = r.recognize_google(audio2)
+            text = text.lower()
+
+            print("Did you say ", text)
+            submit('by_voice', text)
+
+    except sr.RequestError as e:
+        print("Could not request results; {0}".format(e))
+
+    except sr.UnknownValueError:
+        print("unknown error occurred")
+
+
+def submit(by_voice, text):
+    if (text != ''):
+        output = get_response(by_voice, text)
 
         st.session_state.generated.append(
-            {"text": st.session_state.input, "is_user": True})
+            {"text": text, "is_user": True})
         st.session_state.generated.append({"text": output, "is_user": False})
-        st.session_state.input = ''
-        st.session_state.step += 1
-    
+        if st.session_state.input != '':
+            st.session_state.input = ''
 
 
-if st.session_state['generated']:
-
-    for i in range(len(st.session_state['generated'])):
-        message(st.session_state["generated"][i]["text"],
-                is_user=st.session_state["generated"][i]["is_user"], key=str(i))
+for i in range(len(st.session_state['generated'])):
+    message(st.session_state["generated"][i]["text"],
+            is_user=st.session_state["generated"][i]["is_user"], key=str(i))
 
 
-st.text_input("You: ", key="input", on_change=submit)
+col1, col2 = st.columns([20, 3])
+with col1:
+    st.text_input("You: ", key="input", on_change=send)
+with col2:
+    # content = """
+    # <a href='#' id='Image 1'><img width='20px' style='margin-top: 40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZfUZT8VfaBNVtHLy7m2dbPVTE4loEDAOYib7pZFC_J5beuErGkBIncAckBGYFdz9sRHM&usqp=CAU'></a>
+    # """
+    st.button('Speak', on_click=get_voice_response)
+    # st.image(img)
