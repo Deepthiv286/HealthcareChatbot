@@ -1,2 +1,2 @@
-python-pyaudio 
-python3-pyaudio
+portaudio19-dev
+pyaudio

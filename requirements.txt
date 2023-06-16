@@ -3,7 +3,6 @@ beautifulsoup4
 google
 html5lib
 nltk
-pyaudio
 requests
 scikit-learn
 SpeechRecognition
