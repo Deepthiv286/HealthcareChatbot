@@ -3,8 +3,8 @@ beautifulsoup4
 google
 html5lib
 nltk
-portaudio
 portaudio19-dev
+pyaudio
 requests
 scikit-learn
 SpeechRecognition
