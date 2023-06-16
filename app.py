@@ -1,6 +1,9 @@
 import streamlit as st
 from streamlit_chat import message
 import speech_recognition as sr
+# from bokeh.models.widgets import Button
+# from bokeh.models import CustomJS
+# from streamlit_bokeh_events import streamlit_bokeh_events
 
 from Treatment import diseaseDetail
 from functions import get_matching_symptoms, get_cooccurring_symptoms, get_next_cooccurring_symptoms
@@ -73,10 +76,11 @@ def send():
 
 
 def get_voice_response():
+    # submit('by_voice', text.lower())
     try:
 
         # use the microphone as source for input.
-        with sr.Microphone() as source2:
+        with sr.Microphone(device_index=2) as source2:
 
             # wait for a second to let the recognizer
             # adjust the energy threshold based on
@@ -123,5 +127,37 @@ with col2:
     # content = """
     # <a href='#' id='Image 1'><img width='20px' style='margin-top: 40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZfUZT8VfaBNVtHLy7m2dbPVTE4loEDAOYib7pZFC_J5beuErGkBIncAckBGYFdz9sRHM&usqp=CAU'></a>
     # """
+    # stt_button = Button(label="Speak", width=100)
     st.button('Speak', on_click=get_voice_response)
     # st.image(img)
+
+# stt_button.js_on_event("button_click", CustomJS(code="""
+#     var recognition = new webkitSpeechRecognition();
+#     recognition.continuous = true;
+#     recognition.interimResults = true;
+ 
+#     recognition.onresult = function (e) {
+#         var value = "";
+#         for (var i = e.resultIndex; i < e.results.length; ++i) {
+#             if (e.results[i].isFinal) {
+#                 value += e.results[i][0].transcript;
+#             }
+#         }
+#         if ( value != "") {
+#             document.dispatchEvent(new CustomEvent("GET_TEXT", {detail: value}));
+#         }
+#     }
+#     recognition.start();
+#     """))
+
+# result = streamlit_bokeh_events(
+#     stt_button,
+#     events="GET_TEXT",
+#     key="listen",
+#     refresh_on_update=False,
+#     override_height=75,
+#     debounce_time=0)
+
+# if result:
+#     if "GET_TEXT" in result:
+#         get_voice_response(result.get("GET_TEXT"))
