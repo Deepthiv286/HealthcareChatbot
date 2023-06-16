@@ -80,18 +80,18 @@ def get_voice_response():
     try:
 
         # use the microphone as source for input.
-        with sr.Microphone(device_index=0) as source2:
+        with sr.Microphone(device_index=0) as source:
 
             # wait for a second to let the recognizer
             # adjust the energy threshold based on
             # the surrounding noise level
-            r.adjust_for_ambient_noise(source2, duration=0.2)
+            r.adjust_for_ambient_noise(source, duration=1)
 
             # listens for the user's input
-            audio2 = r.listen(source2)
+            audio = r.listen(source)
 
             # Using google to recognize audio
-            text = r.recognize_google(audio2)
+            text = r.recognize_google(audio)
             text = text.lower()
 
             print("Did you say ", text)
