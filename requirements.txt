@@ -3,7 +3,8 @@ beautifulsoup4
 google
 html5lib
 nltk
-# pyaudio
+pyaudio
+python-gnuradio-audio-portaudio
 requests
 scikit-learn
 SpeechRecognition
