@@ -4,6 +4,7 @@ google
 html5lib
 nltk
 pyaudio
+pyttsx3
 requests
 scikit-learn
 SpeechRecognition

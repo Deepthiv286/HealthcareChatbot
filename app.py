@@ -78,9 +78,14 @@ def send():
 def get_voice_response():
     # submit('by_voice', text.lower())
     try:
+        MICROPHONE_INDEX = 0
+        for index, name in enumerate(sr.Microphone.list_microphone_names()):
+            if(name.lower() == 'microphone'):
+                MICROPHONE_INDEX = index
+            print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
 
         # use the microphone as source for input.
-        with sr.Microphone() as source:
+        with sr.Microphone(device_index=MICROPHONE_INDEX) as source:
 
             # wait for a second to let the recognizer
             # adjust the energy threshold based on
@@ -91,7 +96,7 @@ def get_voice_response():
             audio = r.listen(source)
 
             # Using google to recognize audio
-            text = r.recognize_google(audio)
+            text = r.recognize_google(audio, language='en-in')
             text = text.lower()
 
             print("Did you say ", text)
