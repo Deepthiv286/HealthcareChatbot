@@ -78,29 +78,39 @@ def send():
 def get_voice_response():
     # submit('by_voice', text.lower())
     try:
-        MICROPHONE_INDEX = 0
-        for index, name in enumerate(sr.Microphone.list_microphone_names()):
-            if(name.lower() == 'microphone'):
-                MICROPHONE_INDEX = index
-            print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
+        # MICROPHONE_INDEX = 0
+        # for index, name in enumerate(sr.Microphone.list_microphone_names()):
+        #     if(name.lower() == 'microphone'):
+        #         MICROPHONE_INDEX = index
+        #     print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
 
-        # use the microphone as source for input.
-        with sr.Microphone(device_index=MICROPHONE_INDEX) as source:
+        # # use the microphone as source for input.
+        # with sr.Microphone(device_index=MICROPHONE_INDEX) as source:
 
-            # wait for a second to let the recognizer
-            # adjust the energy threshold based on
-            # the surrounding noise level
-            r.adjust_for_ambient_noise(source, duration=1)
+        m = None
+        for device_index in sr.Microphone.list_working_microphones():
+            m = sr.Microphone(device_index=device_index)
+            break
+        else:
+            raise Error("No working microphones found!")
 
-            # listens for the user's input
-            audio = r.listen(source)
+        if m is not None:
+            print("Mic ready")
+            with m as source:
+                # wait for a second to let the recognizer
+                # adjust the energy threshold based on
+                # the surrounding noise level
+                r.adjust_for_ambient_noise(source, duration=1)
 
-            # Using google to recognize audio
-            text = r.recognize_google(audio, language='en-in')
-            text = text.lower()
+                # listens for the user's input
+                audio = r.listen(source)
 
-            print("Did you say ", text)
-            submit('by_voice', text)
+                # Using google to recognize audio
+                text = r.recognize_google(audio, language='en-in')
+                text = text.lower()
+
+                print("Did you say ", text)
+                submit('by_voice', text)
 
     except sr.RequestError as e:
         print("Could not request results; {0}".format(e))
