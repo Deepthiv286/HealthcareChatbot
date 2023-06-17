@@ -1,9 +1,15 @@
 import streamlit as st
 from streamlit_chat import message
 import speech_recognition as sr
-# from bokeh.models.widgets import Button
-# from bokeh.models import CustomJS
+from bokeh.models.widgets import Button
+from bokeh.models import CustomJS
 # from streamlit_bokeh_events import streamlit_bokeh_events
+from audiorecorder import audiorecorder
+from pydub import AudioSegment
+import pyaudio
+
+import base64
+import json
 
 from Treatment import diseaseDetail
 from functions import get_matching_symptoms, get_cooccurring_symptoms, get_next_cooccurring_symptoms
@@ -85,32 +91,32 @@ def get_voice_response():
         #     print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
 
         # # use the microphone as source for input.
-        # with sr.Microphone(device_index=MICROPHONE_INDEX) as source:
+        with sr.Microphone() as source:
 
-        m = None
-        for device_index in sr.Microphone.list_working_microphones():
-            m = sr.Microphone(device_index=device_index)
-            break
-        else:
-            raise Error("No working microphones found!")
+        # m = None
+        # for device_index in sr.Microphone.list_working_microphones():
+        #     m = sr.Microphone(device_index=device_index)
+        #     break
+        # else:
+        #     raise Error("No working microphones found!")
 
-        if m is not None:
-            print("Mic ready")
-            with m as source:
+        # if m is not None:
+        #     print("Mic ready")
+        #     with m as source:
                 # wait for a second to let the recognizer
                 # adjust the energy threshold based on
                 # the surrounding noise level
-                r.adjust_for_ambient_noise(source, duration=1)
+            r.adjust_for_ambient_noise(source, duration=1)
 
-                # listens for the user's input
-                audio = r.listen(source)
+            # listens for the user's input
+            audio = r.listen(source)
 
-                # Using google to recognize audio
-                text = r.recognize_google(audio, language='en-in')
-                text = text.lower()
+            # Using google to recognize audio
+            text = r.recognize_google(audio)
+            text = text.lower()
 
-                print("Did you say ", text)
-                submit('by_voice', text)
+            print("Did you say ", text)
+            submit('by_voice', text)
 
     except sr.RequestError as e:
         print("Could not request results; {0}".format(e))
@@ -142,13 +148,57 @@ with col2:
     # content = """
     # <a href='#' id='Image 1'><img width='20px' style='margin-top: 40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZfUZT8VfaBNVtHLy7m2dbPVTE4loEDAOYib7pZFC_J5beuErGkBIncAckBGYFdz9sRHM&usqp=CAU'></a>
     # """
-    # stt_button = Button(label="Speak", width=100)
+    # p = pyaudio.PyAudio()
+    # audio = audiorecorder("Click to record", "Recording...")
+    # stt_button = Button(label="Speak", width=100, button_type='success')
     st.button('Speak', on_click=get_voice_response)
     # st.image(img)
 
+# stream = p.open(
+#    format=pyaudio.paInt16,
+#    channels=1,
+#    rate=16000,
+#    input=True,
+#    frames_per_buffer=3200
+# )
+
+# data = stream.read(3200)
+# data = base64.b64encode(data).decode("utf-8")
+# json_data = json.dumps({"audio_data":str(data)})
+# print('json_data', json_data)
+# if json_data:
+#     result = json.loads(json_data)['audio_data']
+
+# if json_data and json.loads(json_data)['message_type']=='FinalTranscript':
+#     print(result)
+#     st.write(result)
+
+# if len(audio) > 0:
+#     # To play audio in frontend:
+#     # st.audio(audio.tobytes())
+    
+#     # To save audio to a file:
+#     # wav_file = open("audio.mp3", "wb")
+    
+#     # wav_file.write(audio.tobytes())
+#     # print(audio.tobytes())
+#     sound = AudioSegment.from_file("audio.mp3")
+#     sound.export("transcript.wav", format="wav")
+
+
+#     # transcribe audio file                                                         
+#     AUDIO_FILE = "transcript.wav"
+
+#     # use the audio file as the audio source                                        
+#     r = sr.Recognizer()
+#     with sr.AudioFile(AUDIO_FILE) as source:
+#             audio = r.record(source)  # read the entire audio file                  
+
+#             print("Transcription: " + r.recognize_google(audio))
+
 # stt_button.js_on_event("button_click", CustomJS(code="""
 #     var recognition = new webkitSpeechRecognition();
-#     recognition.continuous = true;
+#     recognition.continuous = false;
 #     recognition.interimResults = true;
  
 #     recognition.onresult = function (e) {
@@ -166,7 +216,7 @@ with col2:
 #     """))
 
 # result = streamlit_bokeh_events(
-#     stt_button,
+#     bokeh_plot = stt_button,
 #     events="GET_TEXT",
 #     key="listen",
 #     refresh_on_update=False,
@@ -175,4 +225,4 @@ with col2:
 
 # if result:
 #     if "GET_TEXT" in result:
-#         get_voice_response(result.get("GET_TEXT"))
+#         st.write(result.get("GET_TEXT"))
