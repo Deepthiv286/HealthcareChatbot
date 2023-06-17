@@ -80,7 +80,7 @@ def get_voice_response():
     try:
 
         # use the microphone as source for input.
-        with sr.Microphone() as source:
+        with sr.Microphone(device=0) as source:
 
             # wait for a second to let the recognizer
             # adjust the energy threshold based on
