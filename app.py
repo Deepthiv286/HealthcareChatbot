@@ -6,6 +6,10 @@ from Treatment import diseaseDetail
 from functions import get_matching_symptoms, get_cooccurring_symptoms, get_next_cooccurring_symptoms
 
 
+# messages = Queue()
+# recordings = Queue()
+
+
 # Initialize the recognizer
 r = sr.Recognizer()
 
@@ -43,6 +47,10 @@ if 'step' not in st.session_state:
 
 if 'count' not in st.session_state:
     st.session_state.count = 0
+
+
+if 'start' not in st.session_state:
+    st.session_state.start = False
 
 
 def get_response(by_voice, text):
