@@ -194,7 +194,7 @@ def get_next_cooccurring_symptoms(symptoms, count):
 
     if selected_symp:
         for idx in select_list:
-            if idx and idx != 'no':
+            if idx and idx != 'no' and idx != '-1':
                 final_symp.append(selected_symp[int(idx)])
 
     del dict_symp_tup[:5*count]
