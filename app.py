@@ -7,12 +7,23 @@ from bokeh.models import CustomJS
 from audiorecorder import audiorecorder
 from pydub import AudioSegment
 import pyaudio
+# from queue import Queue
+# from threading import Thread
 
 import base64
+import subprocess
 import json
+from vosk import Model, KaldiRecognizer
+import time
+# import sys
+# sys.path.append('ffmpeg-6.0')
 
 from Treatment import diseaseDetail
 from functions import get_matching_symptoms, get_cooccurring_symptoms, get_next_cooccurring_symptoms
+
+
+# messages = Queue()
+# recordings = Queue()
 
 
 # Initialize the recognizer
@@ -52,6 +63,10 @@ if 'step' not in st.session_state:
 
 if 'count' not in st.session_state:
     st.session_state.count = 0
+
+
+if 'start' not in st.session_state:
+    st.session_state.start = False
 
 
 def get_response(by_voice, text):
@@ -125,6 +140,72 @@ def get_voice_response():
         print("unknown error occurred")
 
 
+# def get_voice_response1():
+#     if st.session_state.start == False:
+#         st.session_state.start = True
+#         start_recording()
+#     else:
+#         st.session_state.start = False
+#         stop_recording()
+
+# def start_recording():
+#     messages.put(True)
+
+#     record = Thread(target=record_microphone)
+#     record.start()
+#     transcribe = Thread(target=speech_recognition, args=())
+#     transcribe.start()
+
+# def stop_recording():
+#     messages.get()
+
+
+
+# def record_microphone(chunk=1024):
+#     CHANNELS = 1
+#     FRAME_RATE = 16000
+#     RECORD_SECONDS = 20
+#     AUDIO_FORMAT = pyaudio.paInt16
+#     SAMPLE_SIZE = 2
+
+#     p = pyaudio.PyAudio()
+
+#     stream = p.open(format=AUDIO_FORMAT,
+#                     channels=CHANNELS,
+#                     rate=FRAME_RATE,
+#                     input=True,
+#                     input_device_index=2,
+#                     frames_per_buffer=chunk)
+
+#     frames = []
+
+#     while not messages.empty():
+#         data = stream.read(chunk)
+#         frames.append(data)
+#         if len(frames) >= (FRAME_RATE * RECORD_SECONDS) / chunk:
+#             recordings.put(frames.copy())
+#             frames = []
+
+#     stream.stop_stream()
+#     stream.close()
+#     p.terminate()
+
+# def speech_recognition():
+#     model = Model(model_name="vosk-model-en-us-0.22")
+#     rec = KaldiRecognizer(model, 16000)
+#     rec.SetWords(True)
+    
+#     while not messages.empty():
+#         frames = recordings.get()
+        
+#         rec.AcceptWaveform(b''.join(frames))
+#         result = rec.Result()
+#         text = json.loads(result)["text"]
+        
+#         cased = subprocess.check_output('python recasepunc/recasepunc.py predict recasepunc/checkpoint', shell=True, text=True, input=text)
+#         print('cased', cased)
+
+
 def submit(by_voice, text):
     if (text != ''):
         output = get_response(by_voice, text)
@@ -134,6 +215,9 @@ def submit(by_voice, text):
         st.session_state.generated.append({"text": output, "is_user": False})
         if st.session_state.input != '':
             st.session_state.input = ''
+
+
+st.title("Disease Predictor Chatbot")
 
 
 for i in range(len(st.session_state['generated'])):
@@ -175,14 +259,14 @@ with col2:
 
 # if len(audio) > 0:
 #     # To play audio in frontend:
-#     # st.audio(audio.tobytes())
+#     st.audio(audio.tobytes())
     
 #     # To save audio to a file:
-#     # wav_file = open("audio.mp3", "wb")
+#     wav_file = open("audio.mp3", "wb")
     
-#     # wav_file.write(audio.tobytes())
+#     wav_file.write(audio.tobytes())
 #     # print(audio.tobytes())
-#     sound = AudioSegment.from_file("audio.mp3")
+#     sound = AudioSegment.from_mp3("audio.mp3")
 #     sound.export("transcript.wav", format="wav")
 
 
